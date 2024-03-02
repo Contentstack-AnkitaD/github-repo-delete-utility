@@ -1,74 +1,11 @@
-import { Octokit } from '@octokit/rest';
-import inquirer from 'inquirer';
-import { GITHUB_PERSONAL_ACCESS_TOKEN, GITHUB_USERNAME } from '../config.js';
+// Importing the globals.js file to ensure global.octokit is initialized
+import './globals/global.js';
 
-// Create an instance of Octokit with your GitHub personal access token
-const octokit = new Octokit({
-  auth: GITHUB_PERSONAL_ACCESS_TOKEN,
-});
-
-// Function to fetch repositories from GitHub
-const fetchRepos = async () => {
-  try {
-    let allRepos = [];
-    let response;
-    let page = 1;
-
-    do {
-      response = await octokit.rest.repos.listForAuthenticatedUser({
-        per_page: 100,
-        page,
-      });
-
-      // Filter out repositories not owned by the authenticated user
-      const userRepos = response.data.filter(repo => repo.owner.login === GITHUB_USERNAME);
-      allRepos = [...allRepos, ...userRepos.map(repo => repo.name)];
-      page++;
-
-    } while (response.data.length === 100);
-
-    return allRepos;
-  } catch (error) {
-    console.error('Error fetching repositories:', error.message);
-    return [];
-  }
-};
+import { deleteRepo } from './utils/deleteRepo.js';
+import { fetchRepos } from './utils/fetchRepos.js';
+import { selectReposToDelete } from './utils/selectReposToDelete.js';
 
 
-
-// Function to prompt user to select repositories for deletion
-const selectReposToDelete = async (repos) => {
-  const reposToDelete = await inquirer.prompt([
-    {
-      type: 'checkbox',
-      name: 'repositories',
-      message: 'Select repositories to delete:',
-      choices: repos.map(repo => ({
-        name: repo,
-      })),
-    }
-  ]);
-
-  const selectedRepositories = reposToDelete.repositories;
-
-  console.log('Repositories selected for deletion:', selectedRepositories);
-  return selectedRepositories;
-};
-
-// Function to delete a repository
-const deleteRepo = async (repoName) => {
-  try {
-    await octokit.rest.repos.delete({
-      owner: GITHUB_USERNAME,
-      repo: repoName,
-    });
-    console.log(`Repository '${repoName}' deleted successfully.`);
-  } catch (error) {
-    console.error(`Error deleting repository '${repoName}':`, error.message);
-  }
-};
-
-// Main function to delete repositories
 const deleteRepositories = async () => {
   const repos = await fetchRepos();
   if (repos.length === 0) {
@@ -88,5 +25,4 @@ const deleteRepositories = async () => {
   }
 };
 
-// Call the main function
 deleteRepositories();
