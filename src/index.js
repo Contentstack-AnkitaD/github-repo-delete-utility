@@ -1,6 +1,7 @@
 // Importing the globals.js file to ensure global.octokit is initialized
 import './globals/global.js';
 import { fileLogger, enableConsoleLogging, disableConsoleLogging } from './logger/fileLogger.js';
+import { confirmDeletion } from './utils/confirmDeletion.js';
 
 import { deleteRepo } from './utils/deleteRepo.js';
 import { fetchRepos } from './utils/fetchRepos.js';
@@ -22,10 +23,13 @@ const deleteRepositories = async () => {
     console.error('No repositories selected for deletion.');
     return;
   }
-
-  for (const repoName of reposToDelete) {
-    await deleteRepo(repoName);
+  let confirm = await confirmDeletion();
+  if (confirm === true) {
+    for (const repoName of reposToDelete) {
+      await deleteRepo(repoName);
+    }
   }
+
   disableConsoleLogging();
 };
 
