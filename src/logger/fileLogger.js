@@ -5,6 +5,25 @@ import chalk from 'chalk';
 
 let writeToConsole = false;
 
+
+export const writeReposToFile = (repos) => {
+    const repoListDirectory = path.join(process.cwd(), 'deleteReposList');
+    // Create the repo list directory if it doesn't exist
+    if (!fs.existsSync(repoListDirectory)) {
+        fs.mkdirSync(repoListDirectory);
+    }
+
+    const currentDate = new Date().toISOString().replace(/:/g, '-');
+    const logFileName = `file_${currentDate}.log`;
+    const logFilePath = path.join(repoListDirectory, logFileName);
+    // Write the list of repositories to a file
+    const repoList = repos.join('\n');
+    fs.writeFileSync(logFilePath, repoList);
+    console.log(`Repos list created at: ${logFilePath}`);
+
+}
+
+
 // Function to set up file logging
 function fileLogger() {
     const logsDirectory = path.join(process.cwd(), 'logs');

@@ -60,14 +60,17 @@ npm run delete-repos
 
 #### Additional flags can be used to modify the behavior of the script:
 
+- `-y` or `--yes`: Skips the prompt confirmation before deleting repositories.
 
-`-y` or `--yes`: Skips the prompt confirmation before deleting repositories.
+```bash
+npm run delete-repos -- -y
+```
 
-    ```bash
-    npm run delete-repos -- -y
-    ```
+- `--except` <filename>: Deletes all repositories except those listed in the specified file. Each repository name should be listed on a separate line in the file.
 
-
+```bash
+npm run delete-repos -- --except 'github-repo-delete/excluded_repos.txt'
+```
 
 
 ## Author
