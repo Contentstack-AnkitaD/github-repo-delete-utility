@@ -50,7 +50,6 @@ After installing the script, you need to create a `config.js` file with your Git
 
 Make sure to keep your personal access token secure and do not share it with anyone or expose it in public repositories.
 
-
 ### 4. Usage
 
 To delete repositories, run the script:
@@ -58,6 +57,17 @@ To delete repositories, run the script:
 ```bash
 npm run delete-repos
 ```
+
+#### Additional flags can be used to modify the behavior of the script:
+
+
+`-y` or `--yes`: Skips the prompt confirmation before deleting repositories.
+
+    ```bash
+    npm run delete-repos -- -y
+    ```
+
+
 
 
 ## Author

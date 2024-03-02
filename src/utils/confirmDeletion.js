@@ -1,7 +1,11 @@
 import inquirer from 'inquirer';
 
 // Prompt for confirmation before deleting repositories
-export const confirmDeletion = async () => {
+export const confirmDeletion = async (skipPrompt = false) => {
+    if (skipPrompt) {
+        return true;
+    }
+
     const confirmDelete = await inquirer.prompt({
         type: 'confirm',
         name: 'confirm',

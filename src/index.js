@@ -7,6 +7,8 @@ import { deleteRepo } from './utils/deleteRepo.js';
 import { fetchRepos } from './utils/fetchRepos.js';
 import { selectReposToDelete } from './utils/selectReposToDelete.js';
 
+const args = process.argv.slice(2);
+const skipPrompt = args.includes('--yes') || args.includes('-y');
 
 const deleteRepositories = async () => {
   fileLogger();
@@ -23,7 +25,7 @@ const deleteRepositories = async () => {
     console.error('No repositories selected for deletion.');
     return;
   }
-  let confirm = await confirmDeletion();
+  let confirm = await confirmDeletion(skipPrompt);
   if (confirm === true) {
     for (const repoName of reposToDelete) {
       await deleteRepo(repoName);
