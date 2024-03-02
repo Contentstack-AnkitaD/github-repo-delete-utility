@@ -7,6 +7,7 @@ import { confirmDeletion } from './utils/confirmDeletion.js';
 
 import { fetchRepos } from './utils/fetchRepos.js';
 import { selectReposToDelete } from './utils/selectReposToDelete.js';
+import { deleteRepo } from './utils/deleteRepo.js';
 
 const args = process.argv.slice(2);
 const skipPrompt = args.includes('--yes') || args.includes('-y');
@@ -51,7 +52,6 @@ const deleteRepositories = async () => {
   let confirm = await confirmDeletion(skipPrompt);
   if (confirm === true) {
     for (const repoName of reposToDelete) {
-      console.success("deletign repo: ", repoName);
       await deleteRepo(repoName);
     }
   }
