@@ -5,7 +5,6 @@ import ora from 'ora';
 export const fetchRepos = async () => {
     try {
         const spinner = ora('Fetching repositories...').start();    // Start spinner
-
         let allRepos = [];
         let response;
         let page = 1;

@@ -15,6 +15,6 @@ export const selectReposToDelete = async (repos) => {
 
     const selectedRepositories = reposToDelete.repositories;
 
-    console.log('Repositories selected for deletion:', selectedRepositories);
+    console.log('\nRepositories selected for deletion:', selectedRepositories, "\n");
     return selectedRepositories;
 };

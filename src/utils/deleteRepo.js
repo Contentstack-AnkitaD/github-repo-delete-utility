@@ -7,7 +7,7 @@ export const deleteRepo = async (repoName) => {
             owner: GITHUB_USERNAME,
             repo: repoName,
         });
-        console.log(`Repository '${repoName}' deleted successfully.`);
+        console.success(`Repository '${repoName}' deleted successfully.`);
     } catch (error) {
         console.error(`Error deleting repository '${repoName}':`, error.message);
     }
