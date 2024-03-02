@@ -1,8 +1,11 @@
 import { GITHUB_USERNAME } from "../../config.js";
+import ora from 'ora';
 
 // Function to fetch repositories from GitHub
 export const fetchRepos = async () => {
     try {
+        const spinner = ora('Fetching repositories...').start();    // Start spinner
+
         let allRepos = [];
         let response;
         let page = 1;
@@ -20,6 +23,7 @@ export const fetchRepos = async () => {
 
         } while (response.data.length === 100);
 
+        spinner.succeed('Repositories fetched successfully.');     // Stop spinner with success message
         return allRepos;
     } catch (error) {
         console.error('Error fetching repositories:', error.message);

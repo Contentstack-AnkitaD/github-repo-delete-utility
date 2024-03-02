@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@octokit/rest": "^20.0.2",
-    "inquirer": "^9.2.15"
+    "inquirer": "^9.2.15",
+    "ora": "^8.0.1"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.7"
