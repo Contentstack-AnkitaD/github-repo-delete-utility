@@ -10,27 +10,22 @@ const octokit = new Octokit({
 // Function to fetch repositories from GitHub
 const fetchRepos = async () => {
   try {
-    let page = 1;
     let allRepos = [];
+    let response;
+    let page = 1;
 
-    // Fetch repositories page by page until all repositories are retrieved
-    while (true) {
-      const { data: repos } = await octokit.rest.repos.listForAuthenticatedUser({
-        per_page: 100, // Fetch up to 100 repositories per page
-        page: page,
+    do {
+      response = await octokit.rest.repos.listForAuthenticatedUser({
+        per_page: 100,
+        page,
       });
 
-      // Add fetched repositories to the array
-      allRepos = [...allRepos, ...repos.map(repo => repo.name)];
-
-      // If the fetched repositories are less than 100, it means there are no more pages
-      if (repos.length < 100) {
-        break;
-      }
-
-      // Increment page number for the next request
+      // Filter out repositories not owned by the authenticated user
+      const userRepos = response.data.filter(repo => repo.owner.login === GITHUB_USERNAME);
+      allRepos = [...allRepos, ...userRepos.map(repo => repo.name)];
       page++;
-    }
+
+    } while (response.data.length === 100);
 
     return allRepos;
   } catch (error) {
@@ -38,6 +33,7 @@ const fetchRepos = async () => {
     return [];
   }
 };
+
 
 
 // Function to prompt user to select repositories for deletion
