@@ -3,3 +3,5 @@ config.js
 logs
 node_modules
 npm-debug.log
+deleteReposList
+excluded_repos.txt
